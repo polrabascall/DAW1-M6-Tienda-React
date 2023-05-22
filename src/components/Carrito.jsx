@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-export function Carrito() {
+export function Carrito({ cartItems }) {
     function Cart() {
         const [cartItems, setCartItems] = useState([]);
 
@@ -31,16 +31,16 @@ export function Carrito() {
 
         return (
             <div>
-                <h1>Shopping Cart</h1>
-                <ul>
-                    {cartItems.map((item) => (
-                        <li key={item.id}>
-                            <p>{item.name}</p>
-                            <p>Price: {item.price}</p>
-                            <button onClick={() => removeCartItem(item.id)}>Remove</button>
-                        </li>
-                    ))}
-                </ul>
+              <h1>Shopping Cart</h1>
+              <ul>
+                {cartItems.map((item) => (
+                  <li key={item.id}>
+                    <p>{item.name}</p>
+                    <p>Price: {item.price}</p>
+                    <button onClick={() => removeCartItem(item.id)}>Remove</button>
+                  </li>
+                ))}
+              </ul>
             </div>
         );
     }

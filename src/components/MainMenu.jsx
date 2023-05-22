@@ -1,11 +1,11 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Carrito } from "./Carrito/";
+import { Carrito } from "./Carrito";
 
 export function MainMenu(props) {
   const [products, setProducts] = useState(null);
+  const [cartItems, setCartItems] = useState([]);
 
-  // Function to insert a new product in the products state
   function insertNewProd() {
     setProducts([
       ...products,
@@ -18,13 +18,15 @@ export function MainMenu(props) {
       },
     ]);
   }
-
+  
   // Fetching the products from the API using useEffect
   useEffect(() => {
     const productsAxios = axios
       //.get("https://dummyjson.com/products")
       //.get("http://localhost:5000/products")   // Different test bases
       //.get("mongodb://localhost/products")
+      //.get("./products")
+      //.get("D:/XAMPP/htdocs/products")
       .get("https://localhost/products")
       .then((res) => {
         console.log(res);
@@ -32,8 +34,9 @@ export function MainMenu(props) {
       });
   }, []);
 
-
-//Draw cards of products
+  function addToCart(product) {
+    setCartItems([...cartItems, product]);
+  }
 
   return (
     <>
@@ -48,10 +51,14 @@ export function MainMenu(props) {
               products.map((product, index) => (
                 <div class="card" style={{ width: "25%", height: "30vw" }}>
                   <img src={product.thumbnail} class="card-img-top" />
-                  <div class="card-body" /*style={{ overflowY: "scroll" }}*/>
+                  <div class="card-body">
                     <h5 class="card-title">{product.title}</h5>
                     <p class="card-text">{product.description}</p>
-                    <button type="button" class="btn btn-info">
+                    <button
+                      type="button"
+                      class="btn btn-info"
+                      onClick={() => addToCart(product)}
+                    >
                       {product.price}€
                     </button>
                   </div>
@@ -60,6 +67,8 @@ export function MainMenu(props) {
           </div>
         </div>
       </div>
+
+      <Carrito cartItems={cartItems} />
     </>
   );
 }
